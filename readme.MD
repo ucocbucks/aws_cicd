@@ -1,1 +1,1 @@
-# AWS + GIT + GITHUB + GIT ACTION + AWS Developer Q + SageMaker + Bedrock
+# AWS + GIT + GITHUB + GIT ACTION + AWS Developer Q + SageMaker + Bedrock 
