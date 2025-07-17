@@ -38,7 +38,19 @@ jobs:
           ls -al
 
       # ec2 리소스 초기화 (나중에 추가)
-      
+      - name: 뒷정리
+        run: |
+          ssh -i my.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            # 프로세스 종료(서버 종료)
+            pkill -f "python app.py" || true
+
+            # 디렉토리 삭제
+            rm -rf ~/app
+
+            # 가상환경
+            # rm -rf ~/venv 
+          EOF
+
       # github상 리눅스에 위치한 소스 -> ec2 서버로 배포
       - name: Deploy to EC2 instance - ec2 서버로 배포
         # scp  : secure copy, ssh를 통해 파일을 복사하는 명령어
