@@ -43,7 +43,7 @@ jobs:
         # scp  : secure copy, ssh를 통해 파일을 복사하는 명령어
         # -o StrictHostKeyChecking=no : 경고창 없이 바로 진입(신뢰...)
         # -i ./my.pem : pem 파일을 지정하여 ssh 접속
-        # -r : 디렉토리(하위포함) 전체를 복사
+        # -r : 디렉토리(하위포함) 전체를 복사 
         # ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app : 원격지 경로
         # . : 현재 디렉토리 (대상) 
         # : 원격지 특정 위치
