@@ -51,22 +51,27 @@ jobs:
         run: |          
           scp -i my.pem -o StrictHostKeyChecking=no -r . ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app
 
+      # EC2 리눅스 서버 세팅
+      - name: EC2 환경 세팅및 구동
+        run: |
+          ssh -i my.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            # 작업 디렉토리 이동
+            cd ~/app
+            # 리눅스 업데이트
+            sudo apt update -y
+            # 필요 패키지 설치
+            sudo apt install -y python3-pip python3-venv
 
+            # 가상환경 생성
+            python3 -m venv venv
+            # 가상환경 활성화
+            source venv/bin/activate
 
-      # # AWS CLI 설치
-      # - name: Install AWS CLI
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y awscli
+            # 의존성 설치
+            pip install -r requirements.txt
 
-      # # AWS 자격 증명 설정
-      # - name: Configure AWS credentials
-      #   run: |
-      #     echo "[default]" > ~/.aws/credentials
-      #     echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
-      #     echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
-
-      # # EC2 인스턴스에 배포 스크립트 실행
-      # - name: Deploy to EC2 instance
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} 'bash -s' < ./deploy_script.sh
+            # 백엔드 서버 실행
+            nohup venv/bin/python app.py > app.log 2>&1 &
+            
+          EOF
+          
