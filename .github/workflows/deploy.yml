@@ -36,7 +36,20 @@ jobs:
           chmod 600 ./my.pem
           ls -al
 
-
+      # ec2 리소스 초기화 (나중에 추가)
+      
+      # github상 리눅스에 위치한 소스 -> ec2 서버로 배포
+      - name: Deploy to EC2 instance - ec2 서버로 배포
+        # scp  : secure copy, ssh를 통해 파일을 복사하는 명령어
+        # -o StrictHostKeyChecking=no : 경고창 없이 바로 진입(신뢰...)
+        # -i ./my.pem : pem 파일을 지정하여 ssh 접속
+        # -r : 디렉토리(하위포함) 전체를 복사
+        # ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app : 원격지 경로
+        # . : 현재 디렉토리 (대상)
+        # : 원격지 특정 위치
+        run: |          
+          scp -o StrictHostKeyChecking=no -i ./my.pem -r . ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app
+          
 
 
 
