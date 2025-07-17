@@ -48,8 +48,8 @@ jobs:
         # . : 현재 디렉토리 (대상) 
         # : 원격지 특정 위치
         run: |          
-          echo "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}"
-          scp -o StrictHostKeyChecking=no -i ./my.pem -r . ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app
+          echo ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}
+          scp -o StrictHostKeyChecking=no -i my.pem -r . ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/app
           
 
 
