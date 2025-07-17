@@ -1,0 +1,42 @@
+# 액션의 이름
+name: 'Deploy to AWS EC2 Sevice'
+
+# 트리거 (액션이 실행되는 이벤트)
+# main 브런치로 git push 이벤트가 발생할 때 실행
+on:
+  push:
+    branches:
+      - main
+
+# job 정의
+jobs:
+  # job의 이름
+  gitaction-ec2-deploy:
+    # 실행할 환경 -> 우분트에서 진행
+    # github내에서 제공 -> 컨테이너 기반
+    runs-on: ubuntu-latest
+
+    # job의 단계 정의 => 잡을 세부적으로 쪼개서 표현 steps
+    steps:
+      # GitHub에서 제공하는 액션을 사용하여 체크아웃
+      # 현재 github상에(원격 저장소)저장된 최신 코드를 가져옴
+      - name: Repoitory Checkout code, 소스 가져오기 
+        uses: actions/checkout@v4
+
+      # # AWS CLI 설치
+      # - name: Install AWS CLI
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y awscli
+
+      # # AWS 자격 증명 설정
+      # - name: Configure AWS credentials
+      #   run: |
+      #     echo "[default]" > ~/.aws/credentials
+      #     echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+      #     echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+
+      # # EC2 인스턴스에 배포 스크립트 실행
+      # - name: Deploy to EC2 instance
+      #   run: |
+      #     ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} 'bash -s' < ./deploy_script.sh

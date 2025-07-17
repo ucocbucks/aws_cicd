@@ -21,3 +21,19 @@
         - EC2 : 가상 서버 제공(서비스 제공)
         - VPC
         - s3 : 모델 저장, 서빙
+
+
+# CI
+    - 지속적 개발
+    - 도구
+        - git, github, git action
+    - 구조
+        ```
+            /
+            L .github
+                L workflows
+                    L deploy.yml
+        ```
+
+# CD
+    - 지속적 배포
