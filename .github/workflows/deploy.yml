@@ -23,6 +23,22 @@ jobs:
       - name: Repoitory Checkout code, 소스 가져오기 
         uses: actions/checkout@v4
 
+      # pem 파일을 base64 인코딩하여 해당 문자열을 github secret 변수에 저장
+      # ec2 서버의 host, user 정보도 github secret 변수에 저장
+      # 맥 : base64 -i ~/.ssh/your_key.pem -o a.txt
+      # 윈도우(PS) : certutil -encode your_key.pem a.txt
+      # 윈도우(PS) : [Convert]::Base64Encode([System.IO.File]::ReadAllBytes("your_key.pem")) > a.txt
+      # pem 파일은 깃허브상 리눅스에 파일 생성 => ec2 접속을 위해
+      # 키값을 디코딩하여 리눅스상 현재 위치에 생성, 퍼미션 조정
+      - name: Create SSH key file - pem 파일 생성
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" | base64 --decode > ./my.pem
+          chmod 600 ./my.pem
+
+
+
+
+
       # # AWS CLI 설치
       # - name: Install AWS CLI
       #   run: |
