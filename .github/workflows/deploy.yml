@@ -34,6 +34,7 @@ jobs:
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" | base64 --decode > ./my.pem
           chmod 600 ./my.pem
+          ls -al
 
 
 
